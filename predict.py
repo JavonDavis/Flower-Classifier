@@ -33,8 +33,6 @@ def load_checkpoint(path, gpu=True):
     else:
         raise Exception("Invalid model {}".format(checkpoint['model_name']))
 
-    if gpu:
-        model = model.cuda()
 
     classifier = nn.Sequential(OrderedDict(
             [
@@ -106,10 +104,7 @@ def predict(image_path, model, gpu, topk=5):
     image = Image.open(image_path)
     image = process_image(image)
 
-    if gpu:
-        image = torch.cuda.FloatTensor([image])
-    else:
-        image = torch.FloatTensor([image])
+    image = torch.FloatTensor([image])
     model.eval()
     output = model.forward(Variable(image))
     ps = torch.exp(output).data.numpy()[0]
