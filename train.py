@@ -97,7 +97,7 @@ def get_optimizer(learning_rate, momentum):
     optimizer = optim.SGD(model.classifier.parameters(), lr=learning_rate, momentum=momentum)
     return criterion, optimizer
 
-def feed_forward(model, dataloaders, datasets, is_training = True, gpu_available=False):
+def feed_forward(model, dataloaders, datasets, is_training=True, gpu_available=False):
     dataset = 'val'
     if is_training:
         dataset = 'train'
@@ -145,7 +145,7 @@ def train(model, dataloaders, datasets, criterion, optimizer, num_epochs=5, gpu_
         print('\nEpoch {}/{}'.format(epoch+1, num_epochs))
         print('-' * 10)
 
-        for dataset in ['train', 'val']: feed_forward(model, dataloaders, datasets, dataset, gpu_available)
+        for dataset in ['train', 'val']: feed_forward(model, dataloaders, datasets, dataset == 'train', gpu_available)
     return model
 
 def save_checkpoint(model, model_name, datasets, optimizer, batch_size, num_epochs, num_classes=102):
@@ -186,6 +186,11 @@ if __name__ == '__main__':
     print(len(dataloaders))
     model = get_pretrained_model(args.model)
     print(model)
+
+    # Freeze layers
+    for param in model.parameters():
+        param.requires_grad = False
+
     model.classifier = get_classifier()
     print(model)
 
