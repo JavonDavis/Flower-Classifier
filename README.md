@@ -14,7 +14,7 @@ Use python predict.py -h or python train.py for details on more options
 
 # Long story
 
-In this project I built a classifier for flowers using models pretrained on imagenet.
+In this project I built a classifier for flowers using CNN models pretrained on imagenet.
 
 ## TODO:
 Complete writeup of architecture and files
