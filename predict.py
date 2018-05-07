@@ -58,7 +58,10 @@ def process_image(image):
     crop_width, crop_height = 224, 224
     mean, std = [0.485, 0.456, 0.406], [0.229, 0.224, 0.225]
 
-    image.thumbnail((width, height), Image.ANTIALIAS)
+    # get the ratio that will get the shortest side to 256 then divide into both sides to maintain aspect ratio
+    ratio = min(image.size[0], image.size[1])/256.
+
+    image.thumbnail((image.size[0]/ratio, image.size[1]/ratio), Image.ANTIALIAS)
 
     left = (width - crop_width)//2
     top = (height - crop_height)//2
